@@ -20,6 +20,8 @@
   --icon-border-cl: #8e8f99;
   --icon-grey: rgba(255, 255, 255, 0.1);
   --icon-green: #31d0aa;
+  --backdrop-gb-cl: rgba(46, 47, 66, 0.4);
+  --modal-bg-cl: #fcfcfc;
 
   /* Fonts */
   --primary-font: Roboto, sans-serif;
@@ -28,6 +30,9 @@
   /* Card SET */
   --ident: 24px;
   --items: 3;
+
+  /* Other */
+  --trans-set: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 /*************** Загальні стилі ****************/
 /* RESET */
@@ -119,6 +124,19 @@ img {
   border: none;
 }
 
+.nav-link.current::after {
+  content: '';
+  position: absolute;
+
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+
+  border-radius: 2px;
+  background-color: var(--pressed-txt-cl);
+}
+
 /********************** PAGE INDEX ********************/
 
 /*------ header -------*/
@@ -165,6 +183,7 @@ img {
 }
 
 .nav-link {
+  position: relative;
   display: block;
   padding-top: 24px;
   padding-bottom: 24px;
@@ -172,12 +191,16 @@ img {
   font-weight: 500;
   line-height: 1.5;
   color: var(--primary-txt-cl);
+
+  transition: color var(--trans-set);
 }
 
 .contact-link {
   font-style: normal;
   line-height: 1.5;
   color: var(--secondary-txt-cl);
+
+  transition: color --trans-set;
 }
 
 .nav-link:hover,
@@ -230,6 +253,8 @@ img {
 
   color: var(--light-txt-cl);
   background-color: var(--btn-cl);
+
+  transition: background-color var(--trans-set);
 }
 .hero-btn:hover,
 .hero-btn:focus {
@@ -331,6 +356,8 @@ img {
   background-color: var(--logo-darck-cl);
 
   fill: #ffffff;
+
+  transition: background-color var(--trans-set);
 }
 .link-social-media:focus,
 .link-social-media:hover {
@@ -360,6 +387,7 @@ img {
   border-radius: 4px;
 
   fill: var(--icon-border-cl);
+  transition: fill var(--trans-set), border-color var(--trans-set);
 }
 
 .link-customers:focus,
@@ -414,6 +442,9 @@ img {
 .btn.filter {
   color: var(--btn-filter-txt-cl);
   background-color: var(--grey-light-bg-cl);
+
+  transition: color var(--trans-set), background-color var(--trans-set),
+    border-color var(--trans-set), box-shadow var(--trans-set);
 }
 .btn.filter:hover,
 .btn.filter:focus {
@@ -454,6 +485,8 @@ img {
 .portfolio-item {
   background: var(--primary-bg-cl);
   box-shadow: 0px 1px 6px rgba(46, 47, 66, 0.08);
+
+  transition: box-shadow var(--trans-set);
 }
 
 .portfolio-item:focus,
@@ -462,6 +495,100 @@ img {
     0px 1px 1px rgba(46, 47, 66, 0.16), 0px 2px 1px rgba(46, 47, 66, 0.08);
 }
 
+.portfolio-item:hover .card-overlay {
+  transform: translateY(0);
+}
+
 .card-set.portfolio-list {
   row-gap: 48px;
+}
+.img-box {
+  position: relative;
+  overflow: hidden;
+}
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 40px 32px;
+  line-height: 1.5;
+  color: var(--grey-light-bg-cl);
+
+  background-color: var(--logo-darck-cl);
+
+  transform: translateY(100%);
+  transition: transform var(--trans-set);
+}
+
+/* ================ Modal ==================== */
+.backdrop {
+  position: relative;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+
+  background-color: var(--backdrop-gb-cl);
+  transition: opacity var(--trans-set), visibility var(--trans-set);
+}
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 408px;
+  height: 576px;
+  border-radius: 4px;
+  background-color: var(--modal-bg-cl);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 1px 3px rgba(0, 0, 0, 0.12),
+    0px 2px 1px rgba(0, 0, 0, 0.2);
+
+  transition-delay: 150ms;
+  transition: transform var(--trans-set), opacity var(--trans-set);
+}
+.icon-modal {
+}
+.btn-modal-close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  fill: #000000;
+
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--footer-txt-cl);
+
+  transition: background-color var(--trans-set), border-color var(--trans-set),
+    fill var(--trans-set);
+}
+
+.btn-modal-close:focus,
+.btn-modal-close:hover {
+  background-color: var(--pressed-txt-cl);
+  border-color: transparent;
+  fill: var(--light-txt-cl);
+}
+
+.backdrop.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+
+  transition-delay: 50ms;
+}
+
+.backdrop.is-hidden .modal {
+  opacity: 0;
+  transform: translate(-50%, -80%);
 }
